@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Reviewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>AI Code Reviewer</h1>
+        <p>Paste your code below, select the language, and get an instant review.</p>
+
+        <select id="language-select">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="html">HTML</option>
+            <option value="rust">Rust</option>
+        </select>
+
+        <textarea id="code-input" placeholder="Enter your code here..."></textarea>
+        <button id="analyze-btn">Analyze Code</button>
+
+        <div id="result-container">
+            <h2>Review</h2>
+            <pre id="review-output"></pre>
+        </div>
+    </main>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
