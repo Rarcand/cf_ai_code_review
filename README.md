@@ -49,4 +49,4 @@ This application is composed of two main parts: a frontend hosted on Cloudflare 
 
 ## Running Instructions
 
-The application is fully deployed and accessible at the **[Live Demo URL](https://cf-ai-code-review.pages.dev/)**. Simply visit the link to use the application.
+The application is fully deployed and accessible at the **[Live Demo URL](https://cf-ai-code-review.pages.dev/)**.
