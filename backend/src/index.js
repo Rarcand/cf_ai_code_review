@@ -1,36 +1,57 @@
 export default {
     async fetch(request, env, ctx) {
-        // Only allow POST requests for the API endpoint
-        if (request.method !== 'POST') {
-            return new Response('Expected POST request', { status: 405 });
+        // Handle CORS preflight requests
+        if (request.method === 'OPTIONS') {
+          return new Response(null, {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'POST, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type',
+            },
+          });
         }
 
-        try {
-            const { code, language } = await request.json();
+        // Handle the actual POST request
+        if (request.method === 'POST') {
+            try {
+                const { code, language } = await request.json();
 
-            if (!code || !language) {
-                return new Response('Missing code or language in request body', { status: 400 });
+                if (!code || !language) {
+                    throw new Error('Missing code or language in request body');
+                }
+
+                const aiResponse = await runAIAnalysis(env, code, language);
+
+                ctx.waitUntil(saveToKV(env, { code, language, analysis: aiResponse.response }));
+
+                // Return the SUCCESS response
+                return new Response(JSON.stringify({ analysis: aiResponse.response }), {
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                });
+
+            } catch (e) {
+                // ============================================================
+                // NEW: Log the actual error to the console
+                // ============================================================
+                console.error(e);
+
+                // Return the ERROR response
+                return new Response(`Error: ${e.message}`, {
+                    status: 500,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
             }
-            
-            // Call the AI model for analysis
-            const aiResponse = await runAIAnalysis(env, code, language);
-            
-            // Save the result to KV without making the user wait
-            ctx.waitUntil(saveToKV(env, { code, language, analysis: aiResponse.response }));
-
-            // Return the AI's analysis to the frontend
-            return new Response(JSON.stringify({ analysis: aiResponse.response }), {
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*' // Allows your frontend to call this worker
-                },
-            });
-
-        } catch (e) {
-            return new Response(`Error processing request: ${e.message}`, { status: 500 });
         }
+
+        return new Response('Method not allowed', { status: 405 });
     },
 };
+
 
 async function runAIAnalysis(env, code, language) {
     const messages = [
@@ -53,10 +74,8 @@ async function runAIAnalysis(env, code, language) {
 }
 
 async function saveToKV(env, data) {
-    // Generate a unique key using a timestamp and a random ID
     const id = crypto.randomUUID();
     const key = `review:${new Date().toISOString()}:${id}`;
-    
-    // Save the data to the KV namespace
+
     await env.REVIEWS_KV.put(key, JSON.stringify(data));
 }

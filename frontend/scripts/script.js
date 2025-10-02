@@ -31,8 +31,8 @@ analyzeBtn.addEventListener('click', async () => {
         }
 
         const result = await response.json();
-        // The AI response is expected to be in Markdown format for nice formatting
-        reviewOutput.textContent = result.analysis;
+        reviewOutput.innerHTML = marked.parse(result.analysis);
+
 
     } catch (error) {
         reviewOutput.textContent = `Error: ${error.message}`;
@@ -67,8 +67,7 @@ analyzeBtn.addEventListener('click', async () => {
         }
 
         const result = await response.json();
-        reviewOutput.textContent = result.analysis;
-        
+        reviewOutput.innerHTML = marked.parse(result.analysis);        
     } catch (error) {
         reviewOutput.textContent = `Error: ${error.message}`;
     } finally {

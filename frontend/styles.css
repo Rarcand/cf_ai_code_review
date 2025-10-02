@@ -126,7 +126,6 @@ textarea {
     cursor: not-allowed;
 }
 
-/* --- Results --- */
 #result-container {
     margin-top: 2rem;
 }
@@ -137,13 +136,12 @@ textarea {
     border-radius: 8px;
     padding: 1.5rem;
     color: var(--light-text);
-    white-space: pre-wrap; /* Allows text to wrap */
+    white-space: pre-wrap; 
     word-wrap: break-word;
     font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
     min-height: 100px;
 }
 
-/* --- Spinner for Loading State --- */
 .spinner {
     width: 20px;
     height: 20px;
@@ -151,19 +149,46 @@ textarea {
     border-radius: 50%;
     border-top-color: #fff;
     animation: spin 1s ease-in-out infinite;
-    display: none; /* Hidden by default */
+    display: none; 
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
 
-/* Hide button text when loading */
 #analyze-btn:disabled .btn-text {
     display: none;
 }
 
-/* Show spinner when loading */
 #analyze-btn:disabled .spinner {
     display: block;
+}
+#review-output ul {
+    padding-left: 20px;
+}
+
+#review-output li {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+}
+
+#review-output strong {
+    color: var(--cf-orange);
+}
+
+#review-output code {
+    background-color: #111;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 0.9rem;
+}
+
+#review-output pre code {
+    display: block;
+    padding: 1rem;
+    background-color: #111;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
