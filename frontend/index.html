@@ -4,28 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Code Reviewer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <main>
-        <h1>AI Code Reviewer</h1>
-        <p>Paste your code below, select the language, and get an instant review.</p>
+        <header>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 8L3 12L7 16" stroke="#F38020" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 8L21 12L17 16" stroke="#F38020" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 4L10 20" stroke="#cccccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1>AI Code Reviewer</h1>
+        </header>
+        
+        <p>Paste your code, select the language, and get an instant review from our AI assistant.</p>
 
-        <select id="language-select">
-            <option value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="html">HTML</option>
-            <option value="rust">Rust</option>
-        </select>
-
-        <textarea id="code-input" placeholder="Enter your code here..."></textarea>
-        <button id="analyze-btn">Analyze Code</button>
+        <div class="controls">
+            <label for="language-select">Language</label>
+            <select id="language-select">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="html">HTML</option>
+                <option value="rust">Rust</option>
+            </select>
+        </div>
+        
+        <textarea id="code-input" placeholder="Enter your code here..." rows="15"></textarea>
+        <button id="analyze-btn">
+            <span class="btn-text">Analyze Code</span>
+            <div class="spinner" id="spinner"></div>
+        </button>
 
         <div id="result-container">
             <h2>Review</h2>
-            <pre id="review-output"></pre>
+            <pre id="review-output">Your analysis will appear here...</pre>
         </div>
     </main>
+
+    <footer>
+        <p>Powered by Cloudflare Workers AI</p>
+    </footer>
+    
     <script src="scripts/script.js"></script>
 </body>
 </html>
